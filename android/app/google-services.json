@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "452304619317",
+    "project_id": "medirec-49438",
+    "storage_bucket": "medirec-49438.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:452304619317:android:30c08afa80a455f4f3ee7c",
+        "android_client_info": {
+          "package_name": "com.pavan72362.medirec"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "452304619317-aedl2frgcnvd22pig5mvicp26v2kofk7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuiiOCOMPiGxQz-BeTu-7lNfe-7F4sapU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "452304619317-aedl2frgcnvd22pig5mvicp26v2kofk7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

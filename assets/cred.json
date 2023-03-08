@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "medirec-chat-agent-9frq",
+  "private_key_id": "f18fcf47d8d9b93bd49b9ce3eee712db788129b9",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDaNGKs18oWZ5uo\nY/DTUDh0F+1X74YH5XTnql+dNS0r2NMJb14nTChCJRMD642zK4sTrot9FfZjReTG\nU/ZwWMjAKLVUkWRI/EWALWfsY5/TRL96hwEntNw/EAG/5gNTr9aR5Wv2JwtlpCrx\nt5eoQyMGDLlAgTHKaxqMOM+EyTG9UGakd3uZcjoYe4hzQJ5P4WW0gtT8hSwhE2yu\nIdUnCaO2BNj5979OwWVU9/0cicnG7qk45Y5V7ERiE4XNZIcpWLB5XhHkRMaqyBI4\nRXIMCcTmJeQ5rLt0MD9/DLQViEQqtGOhTP+4BmcPeKDFuXvbbnJBj45mTSCZVS6d\nw9pI7v77AgMBAAECggEALhSCAh5P/wtCQ/1XDkkSovGqnbdnhqNeXM4OAxUHxQq1\nBnkOWR4sIkvSCDHmar/3TuC9dFz++1f3SCrTEEavnmT6ZjGODBu6UadFGxau2d7a\n0PVRuSDooiivNedNLI8lsQnSEtmL/pr8tq8ex9nlu5FUTdr6uNSFdrdIm7IhXukH\nzTwSfaAUNRKS8Ns/FFTjXK39veRH2MkVKWqHICTjkIgBxYRlzF3jEiDpVMMgCoCo\n9cWWH75+l6FSl+Y9mULkYWzZ7L6T8uVfoIq4xdbtNV7Kv0vMX786rnKy97IP99Q/\nT5zGkybCOLwEmjsECAWVOL+vICGKABqomw4+y0gKAQKBgQD5LYMBKzZlabWwVV5c\nCjdnJbfWvW9i5Moq9JetsTxq9cFeA7MO3/goXrgyOTz2CC5p8E1Jheb6BONnQC9r\nkNiotesmX8DvW/10xMItVg7vXEugutpfZlGGHTcfrffp8UNS9cmKh6ycq+gsOiV3\niWAUNy6WzzXTZJ66ntnqE/LCSwKBgQDgLchi3vHO9twwP1wxaRroCUryx8dAjyLS\nGp5E2673Pre/X4OEnhINm+jduVcYvwixG1c8IZ5UUCrmJlkcyepSQ5L4EO+OLhBp\n2Imbajih0KjWUuZEwZhj5P2B3PboGWaTHTttMxBLbyOX8bB16RxUAkwaz+bfrDEc\n4TEUuqFIEQKBgQDM21XxCA3Yomf1aLoDAYM7Eg9qRKPmsiJj3mM1MZlydklbeb8k\nY44p4nWdFOHBhEhkYGOqJqQWuR4cLPDPhm4ZhjalfeOo5gAimADsNOxibYbfxb7y\n37P2ht5i9Sv08Z1f/yKK+bA3vj1K3yMee5q6BAQRiJnACeFVnHObtnrGsQKBgDXB\nZLKoqS0qrsP2/YFvpZ8MU2eCFjpZ2EyvS1JRp1PsOx1tptjPGp8eyqkYP1VUwZ3O\nY42stg2bp53GhknL9R9CyuQnE3pxe0gWP3D/+JJ8uW+jM0o7bfJOP6e7N42SQbF3\nKf/WZcrg3JUbxGeRvVQ7tModHkx2OtSk/yLsWa4xAoGAA6QP3bbRhazF6u4N86pO\n4dWnivP0n4bBsCQFN4EhkkX6as2zxevTMJb2YOnlseBxaiGIoLXuZoCqoimApfyM\niBNEwwKF8TwGj5oZAuUknyNrGYkWQbqYpdb5Bcl+aN9FymaoXn4FmAnkbDVfDyP+\n6Y+IG/vsePt7Gx4DmbHJuV0=\n-----END PRIVATE KEY-----\n",
+  "client_email": "medirec-chat-bot@medirec-chat-agent-9frq.iam.gserviceaccount.com",
+  "client_id": "107421226233823691888",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/medirec-chat-bot%40medirec-chat-agent-9frq.iam.gserviceaccount.com"
+}
