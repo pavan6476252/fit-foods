@@ -2,6 +2,8 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
+import 'package:medirec/features/auth/auth_services.dart';
+import 'package:provider/provider.dart';
 import '../chat/chat_page.dart';
 import '../profile/profile_page.dart';
 
@@ -98,8 +100,11 @@ distance: 80,
             },
           ),
           FloatingActionButton.small(
+            heroTag: 'scanner',
             child: const Icon(Icons.scanner_sharp),
-            onPressed: () {},
+            onPressed: () {
+              context.read<AuthService>().signOut();
+            },
           ),
         ],
       ),
