@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:medirec/app/views/get_user_info.dart';
+import 'package:medirec/features/upload/food_upload.dart';
 
 import '../controller/auth_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,6 +32,11 @@ class CustomDrawer extends ConsumerWidget {
             leading: Icon(Icons.healing_outlined),
             title: Text('Health Details'),
             onTap: () async => Navigator.push(context, MaterialPageRoute(builder: (context) => GetUserInfo(),)),
+          ),
+          ListTile(
+            leading: Icon(Icons.upload_file_outlined),
+            title: Text('Upload food data'),
+            onTap: () async => Navigator.push(context, MaterialPageRoute(builder: (context) => UploadFoodScreen(),)),
           ),
           ListTile(
             leading: Icon(Icons.exit_to_app),
