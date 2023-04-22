@@ -13,16 +13,16 @@ class _SearchBarState extends State<SearchBar> {
 
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16.0),
+      margin: EdgeInsets.symmetric(horizontal: 16.0,vertical: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25.0),
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 2,
-            blurRadius: 3,
-            offset: Offset(0, 2), // changes position of shadow
+            spreadRadius: 1,
+            blurRadius: 2,
+            offset: Offset(0, 0), // changes position of shadow
           ),
         ],
       ),

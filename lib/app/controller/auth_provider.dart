@@ -1,7 +1,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:medirec/app/controller/authentication.dart';
+import 'authentication.dart';
 
 final authenticationProvider = Provider<Authentication>((ref) {
   return Authentication();

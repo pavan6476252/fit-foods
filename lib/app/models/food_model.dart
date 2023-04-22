@@ -1,20 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Food {
-  final String id;
-  final String name;
-  final int protein;
-  final int carbs;
-  final int fat;
-  final List<String> allergies;
-  final List<String> healthIssues;
-  final int minAge;
-  final int maxAge;
-  final String uploadedBy;
+   String? id;
+   String? name;
+   String? imageUrl;
+   int? protein;
+   int? carbs;
+   int? fat;
+   List<String>? allergies;
+   List<String>? healthIssues;
+   int? minAge;
+   int? maxAge;
+   String? uploadedBy;
 
   Food({
     required this.id,
     required this.name,
+    required this.imageUrl,
     required this.protein,
     required this.carbs,
     required this.fat,
@@ -26,24 +28,26 @@ class Food {
   });
 
   factory Food.fromFirestore(DocumentSnapshot doc) {
-    final data = doc.data() as Map<String, dynamic>;
-    return Food(
-      id: doc.id,
-      name: data['name'],
-      protein: data['protein'],
-      carbs: data['carbs'],
-      fat: data['fat'],
-      allergies: List<String>.from(data['allergies']),
-      healthIssues: List<String>.from(data['healthIssues']),
-      minAge: data['minAge'],
-      maxAge: data['maxAge'],
-      uploadedBy: data['uploadedBy'],
-    );
-  }
+  Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+  return Food(
+    id: doc.id,
+    name: data['name'],
+    imageUrl: data['imageUrl'],
+    protein: data['protein'],
+    carbs: data['carbs'],
+    fat: data['fat'],
+    allergies: data['allergies'] != null ? List<String>.from(data['allergies']) : null,
+    healthIssues: data['healthIssues'] != null ? List<String>.from(data['healthIssues']) : null,
+    minAge: data['minAge'],
+    maxAge: data['maxAge'],
+    uploadedBy: data['uploadedBy'],
+  );
+}
 
   Map<String, dynamic> toMap() {
     return {
       'name': name,
+      'imageUrl':imageUrl,
       'protein': protein,
       'carbs': carbs,
       'fat': fat,
@@ -57,6 +61,7 @@ class Food {
 
   Food copyWith({
     String? name,
+    String? imageUrl,
     int? protein,
     int? carbs,
     int? fat,
@@ -69,6 +74,7 @@ class Food {
     return Food(
       id: id,
       name: name ?? this.name,
+      imageUrl: imageUrl ?? this.imageUrl,
       protein: protein ?? this.protein,
       carbs: carbs ?? this.carbs,
       fat: fat ?? this.fat,

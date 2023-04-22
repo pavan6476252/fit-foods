@@ -80,23 +80,14 @@ class _LoginPageState extends State<LoginPage> {
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Consumer(builder: (context, ref, _) {
-          //  Consuming a provider using watch method and storing it in a variable
-          //  Now we will use this variable to access all the functions of the
-          //  authentication
-          final _auth = ref.watch(authenticationProvider);
+           final _auth = ref.watch(authenticationProvider);
 
-          //  Instead of creating a clutter on the onPressed Function
-          //  I have decided to create a seperate function and pass them into the
-          //  respective parameters.
-          //  if you want you can write the exact code in the onPressed function
-          //  it all depends on personal preference and code readability
+       
           Future<void> _onPressedFunction() async {
             if (!_formKey.currentState!.validate()) {
               return;
             }
-            // print(_email.text); // This are your best friend for debugging things
-            //  not to mention the debugging tools
-            // print(_password.text);
+       
             if (type == Status.login) {
               loading();
               await _auth
@@ -122,11 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                             }
                           }));
             }
-
-            //  I had said that we would be using a Loading spinner when
-            //  some functions are being performed. we need to check if some
-            //  error occured then we need to stop loading spinner so we can retry
-            //  Authenticating
+ 
           }
 
           Future<void> _loginWithGoogle() async {
@@ -164,57 +151,62 @@ class _LoginPageState extends State<LoginPage> {
                         Container(
                           margin: const EdgeInsets.symmetric(
                               horizontal: 24, vertical: 16),
-                          padding: const EdgeInsets.symmetric(
+                        
+                          child: Card(
+                            child: Padding(
+                               padding: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 4),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(25)),
-                          child: TextFormField(
-                            controller: _email,
-                            autocorrect: true,
-                            enableSuggestions: true,
-                            keyboardType: TextInputType.emailAddress,
-                            onSaved: (value) {},
-                            decoration: InputDecoration(
-                              hintText: 'Email address',
-                              hintStyle: const TextStyle(color: Colors.black54),
-                              icon: Icon(Icons.email_outlined,
-                                  color: Colors.blue.shade700, size: 24),
-                              alignLabelWithHint: true,
-                              border: InputBorder.none,
+                              child: TextFormField(
+                                controller: _email,
+                                autocorrect: true,
+                                enableSuggestions: true,
+                                keyboardType: TextInputType.emailAddress,
+                                onSaved: (value) {},
+                                decoration: InputDecoration(
+                                  hintText: 'Email address',
+                                  // hintStyle: const TextStyle(color: Colors.black54),
+                                  icon: Icon(Icons.email_outlined,
+                                      color: Colors.blue.shade700, size: 24),
+                                  alignLabelWithHint: true,
+                                  border: InputBorder.none,
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty || !value.contains('@')) {
+                                    return 'Invalid email!';
+                                  }
+                                  return null;
+                                },
+                              ),
                             ),
-                            validator: (value) {
-                              if (value!.isEmpty || !value.contains('@')) {
-                                return 'Invalid email!';
-                              }
-                              return null;
-                            },
                           ),
                         ),
                         Container(
                           margin: const EdgeInsets.symmetric(
                               horizontal: 24, vertical: 8),
-                          padding: const EdgeInsets.symmetric(
+                      
+                        
+                          child: Card(
+                            child: Padding(
+                               padding: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 4),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(25)),
-                          child: TextFormField(
-                            controller: _password,
-                            obscureText: true,
-                            validator: (value) {
-                              if (value!.isEmpty || value.length < 8) {
-                                return 'Password is too short!';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              hintText: 'Password',
-                              hintStyle: const TextStyle(color: Colors.black54),
-                              icon: Icon(CupertinoIcons.lock_circle,
-                                  color: Colors.blue.shade700, size: 24),
-                              alignLabelWithHint: true,
-                              border: InputBorder.none,
+                              child: TextFormField(
+                                controller: _password,
+                                obscureText: true,
+                                validator: (value) {
+                                  if (value!.isEmpty || value.length < 8) {
+                                    return 'Password is too short!';
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                  hintText: 'Password',
+                                  // hintStyle: const TextStyle(color: Colors.black54),
+                                  icon: Icon(CupertinoIcons.lock_circle,
+                                      color: Colors.blue.shade700, size: 24),
+                                  alignLabelWithHint: true,
+                                  border: InputBorder.none,
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -258,7 +250,7 @@ class _LoginPageState extends State<LoginPage> {
                   flex: 2,
                   child: Container(
                       width: double.infinity,
-                      decoration: const BoxDecoration(color: Colors.white),
+                      // decoration: const BoxDecoration(color: Colors.white),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -333,7 +325,7 @@ class _LoginPageState extends State<LoginPage> {
                                 text: type == Status.login
                                     ? 'Don\'t have an account? '
                                     : 'Already have an account? ',
-                                style: const TextStyle(color: Colors.black),
+                                // style: const TextStyle(color: Colors.black),
                                 children: [
                                   TextSpan(
                                       text: type == Status.login

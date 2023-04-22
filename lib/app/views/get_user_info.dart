@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:medirec/app/views/home_page.dart';
+import 'package:flutter/material.dart'; 
+
+import 'home_page.dart';
 
 class GetUserInfo extends StatefulWidget {
   @override
@@ -11,7 +12,7 @@ class GetUserInfo extends StatefulWidget {
 class _GetUserInfoState extends State<GetUserInfo> {
   int _currentStep = 0;
   int? _age;
-  List<String> _selectedAllergies = [];
+  List<String> _healthIssues = [];
 
   List<String> _selectedIssueList = [];
 
@@ -78,7 +79,7 @@ class _GetUserInfoState extends State<GetUserInfo> {
             ),
           ),
           Step(
-            title: Text('Select Allergies'),
+            title: Text('Select allergies'),
             isActive: _currentStep >= 1,
             content: Column(
               children: [
@@ -87,13 +88,13 @@ class _GetUserInfoState extends State<GetUserInfo> {
                   children: _allergyList.map((allergy) {
                     return ChoiceChip(
                       label: Text(allergy),
-                      selected: _selectedAllergies.contains(allergy),
+                      selected: _healthIssues.contains(allergy),
                       onSelected: (selected) {
                         setState(() {
                           if (selected) {
-                            _selectedAllergies.add(allergy);
+                            _healthIssues.add(allergy);
                           } else {
-                            _selectedAllergies.remove(allergy);
+                            _healthIssues.remove(allergy);
                           }
                         });
                       },
@@ -148,7 +149,7 @@ class _GetUserInfoState extends State<GetUserInfo> {
                   onPressed: () {
                     _currentStep == 2
                         ? _submit(
-                            _age ?? 0, _selectedIssueList, _selectedAllergies)
+                            _age ?? 0, _selectedIssueList, _healthIssues)
                         : setState(() => _currentStep += 1);
                   }),
             ],
@@ -158,10 +159,10 @@ class _GetUserInfoState extends State<GetUserInfo> {
     );
   }
 
-  _submit(int age, List<String> selectedIssues,
-      List<String> selectedAllergies) async {
+  _submit(int age, List<String> allergies,
+      List<String> healthIssues) async {
     if (_formKey.currentState!.validate()) {
-      await storeUserData(age, selectedIssues, selectedAllergies);
+      await storeUserData(age, allergies, healthIssues);
       // Navigate to home screen
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
@@ -172,7 +173,7 @@ class _GetUserInfoState extends State<GetUserInfo> {
   }
 }
 
-Future checkIfUserExist() async {
+Future<bool> checkIfUserExist() async {
   bool exist = false;
 
   User? user = FirebaseAuth.instance.currentUser;
@@ -182,12 +183,12 @@ Future checkIfUserExist() async {
     final snapshot = await documentRef.get();
     exist = snapshot.exists;
   }
-  print(exist);
-  // return exist;
+  // print(exist);
+  return exist;
 }
 
-Future<void> storeUserData(int age, List<String> selectedIssues,
-    List<String> selectedAllergies) async {
+Future<void> storeUserData(int age, List<String> allergies,
+    List<String> healthIssues) async {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final User? user = auth.currentUser;
 
@@ -202,16 +203,16 @@ Future<void> storeUserData(int age, List<String> selectedIssues,
       // User already exists, overwrite the existing data
       await userDocRef.set({
         'age': age,
-        'selectedIssues': selectedIssues,
-        'selectedAllegies': selectedAllergies
+        'allergies': allergies,
+        'healthIssues': healthIssues
       });
     } else {
       // User does not exist, create a new record
       await userDocRef.set({
         'email': user.email,
         'age': age,
-        'selectedIssues': selectedIssues,
-        'selectedAllegies': selectedAllergies
+        'allergies': allergies,
+        'healthIssues': healthIssues
       });
     }
   } else {

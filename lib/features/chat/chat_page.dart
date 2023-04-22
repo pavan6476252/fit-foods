@@ -27,10 +27,10 @@ class _ChatPageState extends State<ChatPage> {
   // for changing recording icon
   bool _isRecording = false;
 
-  late final SpeechToText speechToText;
-  late StreamSubscription _recorderStatus;
-  late StreamSubscription<List<int>> _audioStreamSubscription;
-  late DialogflowGrpcV2Beta1 dialogflow;
+     SpeechToText? speechToText;
+   StreamSubscription? _recorderStatus;
+   StreamSubscription<List<int>>? _audioStreamSubscription;
+   DialogflowGrpcV2Beta1? dialogflow;
 
   @override
   void initState() {
@@ -54,13 +54,13 @@ class _ChatPageState extends State<ChatPage> {
     setState(() {});
 
     // Initialize speech recognition services, returns true if successful, false if failed.
-    await speechToText.initialize(
+    await speechToText!.initialize(
       options: [SpeechToText.androidIntentLookup],
     );
   }
 
   void stopStream() async {
-    await _audioStreamSubscription.cancel();
+    await _audioStreamSubscription!.cancel();
   }
 
   void handleSubmitted(text) async {
@@ -77,7 +77,7 @@ class _ChatPageState extends State<ChatPage> {
     });
 
     // callling dialogflow api
-    DetectIntentResponse data = await dialogflow.detectIntent(text, 'en-US');
+    DetectIntentResponse data = await dialogflow!.detectIntent(text, 'en-US');
 
     // getting meaningful response text
     String fulfillmentText = data.queryResult.fulfillmentText;
@@ -114,20 +114,20 @@ class _ChatPageState extends State<ChatPage> {
     setState(() {
       _isRecording = true;
     });
-    await speechToText.listen(
+    await speechToText!.listen(
       onResult: _onSpeechResult,
     );
   }
 
   void _stopListening() async {
-    await speechToText.stop();
+    await speechToText!.stop();
   }
 
   @override
   void dispose() {
-    _recorderStatus.cancel();
-    _audioStreamSubscription.cancel();
-    speechToText.stop();
+    _recorderStatus!.cancel();
+    _audioStreamSubscription!.cancel();
+    speechToText!.stop();
     super.dispose();
   }
 

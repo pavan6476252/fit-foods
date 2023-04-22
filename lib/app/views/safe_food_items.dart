@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ class SafeFoodsScreen extends StatefulWidget {
 }
 
 class _SafeFoodsScreenState extends State<SafeFoodsScreen> {
-  List<Food> _foods = [];
+  List<Food> foods = [];
 
   @override
   void initState() {
@@ -19,60 +20,105 @@ class _SafeFoodsScreenState extends State<SafeFoodsScreen> {
   }
 
   Future<void> _getSafeFoods() async {
-    final user = FirebaseAuth.instance.currentUser;
-    final allergies = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user!.uid)
-        .get()
-        .then((doc) => List<String>.from(doc['allergies']));
-    final healthIssues = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .get()
-        .then((doc) => List<String>.from(doc['healthIssues']));
-    final age = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .get()
-        .then((doc) => doc['age']);
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      final allergies = await FirebaseFirestore.instance
+          .collection('userData')
+          .doc(user!.email)
+          .get()
+          .then((doc) => List<String>.from(doc['allergies']));
+      final healthIssues = await FirebaseFirestore.instance
+          .collection('userData')
+          .doc(user.email)
+          .get()
+          .then((doc) => List<String>.from(doc['healthIssues']));
 
-    final snapshot = await FirebaseFirestore.instance.collection('foods').get();
+      final age = await FirebaseFirestore.instance
+          .collection('userData')
+          .doc(user.email)
+          .get()
+          .then((doc) => doc['age']);
 
-    final safeFoods = snapshot.docs
-        .map((doc) => Food.fromFirestore(doc))
-        .where((food) =>
-            !food.allergies.any((allergy) => allergies.contains(allergy)) &&
-            !food.healthIssues.any((issue) => healthIssues.contains(issue)) &&
-            food.minAge <= age &&
-            food.maxAge >= age)
-        .toList();
+      final snapshot =
+          await FirebaseFirestore.instance.collection('foods').get();
 
-    setState(() {
-      _foods = safeFoods;
-    });
+      final safeFoods = snapshot.docs
+          .map((doc) => Food.fromFirestore(doc))
+          .where((food) =>
+              (food.allergies == null ||
+                  !food.allergies!
+                      .any((allergy) => allergies.contains(allergy))) &&
+              (food.healthIssues == null ||
+                  !food.healthIssues!
+                      .any((issue) => healthIssues.contains(issue))) &&
+              food.minAge! <= age &&
+              food.maxAge! >= age)
+          .toList();
+
+      setState(() {
+        foods = safeFoods;
+      });
+    } catch (e) {
+      print("##############");
+
+      print(e);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Safe Foods'),
-      ),
-      body: _foods.isEmpty
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : ListView.builder(
-              itemCount: _foods.length,
-              itemBuilder: (context, index) {
-                final food = _foods[index];
-                return ListTile(
-                  title: Text(food.name),
-                  subtitle: Text(
-                      'Protein: ${food.protein}g | Carbs: ${food.carbs}g | Fat: ${food.fat}g'),
-                );
-              },
-            ),
-    );
+    return foods.isEmpty
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        : ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: foods.length,
+            itemBuilder: (context, index) {
+              final food = foods[index];
+              return SizedBox(
+                width: 150,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: CachedNetworkImage(
+                          height: double.maxFinite,
+                          imageUrl: food.imageUrl ?? "",
+                          placeholder: (context, url) =>
+                              const Center(child: CircularProgressIndicator()),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.5),
+                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10))),
+                          child: Text(
+                            food.name ?? "",
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
   }
 }

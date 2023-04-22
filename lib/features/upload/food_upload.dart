@@ -1,13 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 import '../../app/models/food_model.dart';
 
 class UploadFoodScreen extends StatefulWidget {
+  const UploadFoodScreen({super.key});
+
   @override
   _UploadFoodScreenState createState() => _UploadFoodScreenState();
 }
@@ -24,6 +26,21 @@ class _UploadFoodScreenState extends State<UploadFoodScreen> {
   final _maxAgeController = TextEditingController();
 
   bool _isLoading = false;
+  XFile? pickedFile;
+
+  Future<void> _pickImage() async {
+     pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    
+    // _imageFile = await FlutterImageCompress.compressAndGetFile(
+    //   _imageFile!.path,
+    //   _imageFile!.path,
+    //   quality: 50,
+    // );
+
+    setState(() {});
+  }
+
 
   Future<void> _uploadFoodItem() async {
     if (_formKey.currentState!.validate()) {
@@ -32,9 +49,24 @@ class _UploadFoodScreenState extends State<UploadFoodScreen> {
       });
 
       try {
+        //upload image
+
+         Reference storageReference = FirebaseStorage.instance
+      .ref()
+      .child('images/${DateTime.now().toString()}');
+
+        UploadTask uploadTask = storageReference.putFile(File(pickedFile!.path));
+        TaskSnapshot taskSnapshot = await uploadTask
+            .whenComplete(() => ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Image uploaded successfully')),
+                ));
+        String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+      print(downloadUrl);
+
         final foodItem = Food(
           id: '',
           name: _nameController.text,
+          imageUrl: downloadUrl,
           protein: int.parse(_proteinController.text),
           carbs: int.parse(_carbsController.text),
           fat: int.parse(_fatController.text),
@@ -48,15 +80,15 @@ class _UploadFoodScreenState extends State<UploadFoodScreen> {
               .toList(),
           minAge: int.parse(_minAgeController.text),
           maxAge: int.parse(_maxAgeController.text),
-          uploadedBy: FirebaseAuth.instance.currentUser!.uid,
+          uploadedBy: FirebaseAuth.instance.currentUser!.email!,
         );
 
         final docRef = await FirebaseFirestore.instance
             .collection('foods')
             .add(foodItem.toMap());
-        final updatedFoodItem = foodItem.copyWith();
+        // final updatedFoodItem = foodItem.copyWith();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Food item uploaded successfully')),
+          const SnackBar(content: Text('Food item uploaded successfully')),
         );
 
         setState(() {
@@ -85,14 +117,14 @@ class _UploadFoodScreenState extends State<UploadFoodScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Upload Food Item'),
+        title: const Text('Upload Food Item'),
       ),
       body: _isLoading
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
             )
           : SingleChildScrollView(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Form(
                   key: _formKey,
                   child: Column(
@@ -100,7 +132,7 @@ class _UploadFoodScreenState extends State<UploadFoodScreen> {
                       children: [
                         TextFormField(
                           controller: _nameController,
-                          decoration: InputDecoration(labelText: 'Name'),
+                          decoration: const InputDecoration(labelText: 'Name'),
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Please enter a name';
@@ -108,9 +140,24 @@ class _UploadFoodScreenState extends State<UploadFoodScreen> {
                             return null;
                           },
                         ),
+                        AspectRatio(
+                          aspectRatio: 16 / 9,
+                          child: pickedFile == null
+                              ? const Text('No image selected.')
+                              : Image.file(
+                                  File(pickedFile!.path),
+                                  fit: BoxFit.cover,
+                                ),
+                        ),
+                        ElevatedButton(
+                            onPressed: () async {
+                              await _pickImage();
+                            },
+                            child: Text("select image")),
                         TextFormField(
                           controller: _proteinController,
-                          decoration: InputDecoration(labelText: 'Protein'),
+                          decoration:
+                              const InputDecoration(labelText: 'Protein'),
                           keyboardType: TextInputType.number,
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -124,7 +171,7 @@ class _UploadFoodScreenState extends State<UploadFoodScreen> {
                         ),
                         TextFormField(
                           controller: _carbsController,
-                          decoration: InputDecoration(labelText: 'Carbs'),
+                          decoration: const InputDecoration(labelText: 'Carbs'),
                           keyboardType: TextInputType.number,
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -138,7 +185,7 @@ class _UploadFoodScreenState extends State<UploadFoodScreen> {
                         ),
                         TextFormField(
                           controller: _fatController,
-                          decoration: InputDecoration(labelText: 'Fat'),
+                          decoration: const InputDecoration(labelText: 'Fat'),
                           keyboardType: TextInputType.number,
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -152,18 +199,19 @@ class _UploadFoodScreenState extends State<UploadFoodScreen> {
                         ),
                         TextFormField(
                           controller: _allergiesController,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                               labelText: 'Allergies (separate with commas)'),
                         ),
                         TextFormField(
                           controller: _healthIssuesController,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                               labelText:
                                   'Health Issues (separate with commas)'),
                         ),
                         TextFormField(
                           controller: _minAgeController,
-                          decoration: InputDecoration(labelText: 'Minimum Age'),
+                          decoration:
+                              const InputDecoration(labelText: 'Minimum Age'),
                           keyboardType: TextInputType.number,
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -177,7 +225,8 @@ class _UploadFoodScreenState extends State<UploadFoodScreen> {
                         ),
                         TextFormField(
                           controller: _maxAgeController,
-                          decoration: InputDecoration(labelText: 'Maximum Age'),
+                          decoration:
+                              const InputDecoration(labelText: 'Maximum Age'),
                           keyboardType: TextInputType.number,
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -194,7 +243,7 @@ class _UploadFoodScreenState extends State<UploadFoodScreen> {
         onPressed: () {
           _uploadFoodItem();
         },
-        child: Icon(Icons.upload),
+        child: const Icon(Icons.upload),
       ),
     );
   }
