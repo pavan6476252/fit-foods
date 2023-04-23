@@ -9,29 +9,29 @@ final themeProvider = ChangeNotifierProvider<ThemeProvider>((ref) {
 class ThemeProvider extends ChangeNotifier {
   final lightThemeData  = ThemeData.light(useMaterial3: true);
   final darkThemeData  = ThemeData.dark(useMaterial3: true);
-  late ThemeData _themeData;
+ ThemeData? _themeData ;
 
   ThemeProvider() {
     _loadTheme();
   }
 
-  ThemeData getTheme() => _themeData;
+  ThemeData? getTheme() => _themeData;
 
   void setTheme(ThemeData themeData) async {
     _themeData = themeData;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('isDarkMode', _themeData.brightness == Brightness.dark);
+    prefs.setBool('isDarkMode', _themeData!.brightness == Brightness.dark);
     notifyListeners();
   }
 
   void toggleTheme() async {
-    if (_themeData.brightness == Brightness.dark) {
+    if (_themeData!.brightness == Brightness.dark) {
       _themeData =lightThemeData;
     } else {
       _themeData = darkThemeData;
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('isDarkMode', _themeData.brightness == Brightness.dark);
+    prefs.setBool('isDarkMode', _themeData!.brightness == Brightness.dark);
     notifyListeners();
   }
 

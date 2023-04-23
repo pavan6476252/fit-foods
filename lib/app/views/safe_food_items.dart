@@ -40,7 +40,7 @@ class _SafeFoodsScreenState extends State<SafeFoodsScreen> {
           .then((doc) => doc['age']);
 
       final snapshot =
-          await FirebaseFirestore.instance.collection('foods').get();
+          await FirebaseFirestore.instance.collection('foods').limit(8).get();
 
       final safeFoods = snapshot.docs
           .map((doc) => Food.fromFirestore(doc))

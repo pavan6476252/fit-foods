@@ -66,13 +66,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root 
-  
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
+ 
   flutter_lints: ^2.0.0
   flutter_native_splash: ^2.2.19
   flutter_launcher_icons: "^0.13.1"
@@ -81,25 +75,7 @@ dev_dependencies:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
-
-# flutter_native_splash-production.yaml
-flutter_native_splash:
-  color: "#ffffff"
-  background_image: "assets/splash.png"
-  branding: assets/splash.png
-  color_dark: "#ffffff"
-  image_dark: assets/splash.png
-  branding_dark: assets/splash.png
-
-  android_12:
-    background_image: "assets/splash.png"
-    icon_background_color: "#ffffff"
-    image_dark: assets/splash.png
-    icon_background_color_dark: "#ffffff"
-
-  web: false
-
-
+ 
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
@@ -127,10 +103,7 @@ flutter:
   assets:
       - assets/
 
-  # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+ 
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

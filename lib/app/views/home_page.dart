@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                 Consumer(
                   builder: (context, watch, child) {
                     final theme = watch.watch(themeProvider);
-                    return theme.getTheme().brightness == Brightness.dark
+                    return theme.getTheme()!.brightness == Brightness.dark
                         ? IconButton(icon:Icon(Icons.sunny),onPressed: () => theme.toggleTheme(),)
                         : IconButton(icon:Icon(Icons.dark_mode_outlined),onPressed: () => theme.toggleTheme(),);
                   },

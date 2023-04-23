@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../views/seach_page.dart';
+
 class SearchBar extends StatefulWidget {
   @override
   _SearchBarState createState() => _SearchBarState();
@@ -37,6 +39,14 @@ class _SearchBarState extends State<SearchBar> {
                 contentPadding:
                     EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
               ),
+              onSubmitted: (query) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SearchPage(query: query),
+                ),
+              );
+            },
             ),
           ),
           CircleAvatar(
@@ -85,8 +95,7 @@ class _SearchBarState extends State<SearchBar> {
             ),
             TextButton(
               child: Text('APPLY'),
-              onPressed: () {
-                // Add your filter logic here
+              onPressed: () { 
                 Navigator.of(context).pop();
               },
             ),
