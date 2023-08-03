@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../views/seach_page.dart';
 
-class SearchBar extends StatefulWidget {
+class SearchBarWidget extends StatefulWidget {
+  const SearchBarWidget({super.key});
+
   @override
-  _SearchBarState createState() => _SearchBarState();
+  _SearchBarWidgetState createState() => _SearchBarWidgetState();
 }
 
-class _SearchBarState extends State<SearchBar> {
+class _SearchBarWidgetState extends State<SearchBarWidget> {
   TextEditingController _searchController = TextEditingController();
 
   @override

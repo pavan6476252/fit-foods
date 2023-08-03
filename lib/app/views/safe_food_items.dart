@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fitfood_medirec/app/utils/loading_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../models/food_model.dart';
@@ -59,9 +60,8 @@ class _SafeFoodsScreenState extends State<SafeFoodsScreen> {
         foods = safeFoods;
       });
     } catch (e) {
-      print("##############");
-
-      print(e);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Error while loading data")));
     }
   }
 
@@ -89,8 +89,7 @@ class _SafeFoodsScreenState extends State<SafeFoodsScreen> {
                         child: CachedNetworkImage(
                           height: double.maxFinite,
                           imageUrl: food.imageUrl ?? "",
-                          placeholder: (context, url) =>
-                              const Center(child: CircularProgressIndicator()),
+                          placeholder: (context, url) => const LoadingScreen(),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -102,7 +101,9 @@ class _SafeFoodsScreenState extends State<SafeFoodsScreen> {
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
                               color: Colors.black.withOpacity(0.5),
-                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10))),
+                              borderRadius: const BorderRadius.only(
+                                  bottomLeft: Radius.circular(10),
+                                  bottomRight: Radius.circular(10))),
                           child: Text(
                             food.name ?? "",
                             style: const TextStyle(

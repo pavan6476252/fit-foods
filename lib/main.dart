@@ -10,10 +10,11 @@ import 'theme_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
- await  SharedPreferences.getInstance();
+  
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+ await  SharedPreferences.getInstance();
   runApp(const ProviderScope(child: MyApp()));
 }
 
