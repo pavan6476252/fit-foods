@@ -65,7 +65,10 @@ class Authentication {
   //  SignIn the user Google
   Future<void> signInWithGoogle(BuildContext context) async {
     // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+   
+
+    try {
+       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
     final GoogleSignInAuthentication googleAuth =
@@ -76,10 +79,9 @@ class Authentication {
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
-
-    try {
       await _auth.signInWithCredential(credential);
     } on FirebaseAuthException catch (e) {
+      print(e);
       await  showDialog(
         context: context,
         builder: (ctx) => AlertDialog(

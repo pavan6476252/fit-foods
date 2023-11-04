@@ -117,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
           }
 
           Future<void> _loginWithGoogle() async {
-            loading2();
+            // loading2();
             await _auth
                 .signInWithGoogle(context)
                 .whenComplete(() => _auth.authStateChange.listen((event) async {
